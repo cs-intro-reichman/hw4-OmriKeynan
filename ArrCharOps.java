@@ -36,6 +36,9 @@ public class ArrCharOps {
     /** Returns the char value at the specified index. Assume that the array is non-empty.
      */
     public static char charAt(char[] arr, int index) {
+        if (index < 0 || index >= arr.length) {
+            return 0;
+        }
         return arr[index];
     }
 
@@ -58,6 +61,9 @@ public class ArrCharOps {
      *  If no such character is found, returns -1.
      */
     public static int indexOf(char[] arr, char ch) {
+        if (arr == null) {
+            return 0;
+        }
         int indexOfArr = 0;
         for (indexOfArr = 0; indexOfArr < arr.length; indexOfArr++) {
             if (ch == arr[indexOfArr]) {
@@ -70,6 +76,12 @@ public class ArrCharOps {
     /** Same as indexOf(char[], char), but starts the search in the given index.
      */
     public static int indexOf(char[] arr, char ch, int fromIndex) {
+        if (arr == null) {
+            return 0;
+        }
+        if (fromIndex < 0 || fromIndex >= arr.length) {
+            return 0;
+        }
         int indexOfArr = fromIndex;
         for (indexOfArr = fromIndex; indexOfArr < arr.length; indexOfArr++) {
             if (ch == arr[indexOfArr]) {
@@ -83,7 +95,9 @@ public class ArrCharOps {
      *  If no such character is found, returns -1.
      */
     public static int lastIndexOf(char[] arr, char ch) {
-
+        if (arr == null) {
+            return 0;
+        }
         for (int i = arr.length - 1; i >= 0; i--) {
             if (arr[i] == ch) { 
                 return i; 
@@ -96,6 +110,9 @@ public class ArrCharOps {
     /* Returns an array which is the concatanation of the two given arrays.
     */
     public static char[] concat(char[] arr1, char[] arr2) {
+        if (arr1 == null && arr2 == null) {
+            return null;
+        }
         int totalLength = arr1.length +arr2.length;
         char arr3 [] = new char [totalLength]; 
         for (int i = 0; i < arr1.length; i++) {
@@ -147,14 +164,16 @@ public class ArrCharOps {
         }
     
         long hash = 0;
-        int n = arr.length;
+        long powerOf7 = 1;
     
-        for (int i = 0; i < n; i++) {
-            hash += arr[i] * Math.pow(7, (n - 1 - i));
+        for (int i = arr.length - 1; i >= 0; i--) {
+            hash += arr[i] * powerOf7;
+            powerOf7 *= 7;
         }
     
         return hash;
     }
+    
 
     /**
      * Compares the two strings lexicographically.
@@ -181,32 +200,18 @@ public class ArrCharOps {
      *         lexicographically greater than str2.
      *         return -2 if there is an error with the input.
      */
-    public static int compareTo(String str1, String str2) {
-        if (str1 == null || str2 == null) {
-            return -2;
-        }
+    public static int compareTo(String str1, String str2)
+    {
+       int min= Math.min(str1.length(), str2.length());
+       if (str1.length() ==0 || str2.length()==0) return -2;
+       for(int i=0;i<min;i++)
+       {
+           if (str1.charAt(i)>str2.charAt(i)) return 1;
+           if (str1.charAt(i)<str2.charAt(i)) return -1;
+       }
+       if(str1.length()>str2.length()) return 1;
+       if(str1.length()<str2.length()) return -1;
+       return 0;
+    }
     
-        int minLength = Math.min(str1.length(), str2.length());
-    
-        for (int i = 0; i < minLength; i++) {
-            char c1 = str1.charAt(i);
-            char c2 = str2.charAt(i);
-    
-            if (c1 != c2) {
-                if (c1 < c2) {
-                    return -1;
-                } else {
-                    return 1;
-                }
-            }
-        }
-    
-        if (str1.length() == str2.length()) {
-            return 0;
-        } else if (str1.length() < str2.length()) {
-            return -1;
-        } else {
-            return 1;
-        }
-    }    
 }
